@@ -1,0 +1,26 @@
+{
+  "employees": [
+    {
+      "id": "1",
+      "name": "John Sah",
+      "email": "johnsah@gmail.com",
+      "phone": "123456789",
+      "address": "123 Main St",
+      "action": "Update"
+    },
+    {
+      "name": "Aditya Parida",
+      "email": "adityaparida9@gmail.com",
+      "phone": "8249371548",
+      "address": "Baseli Sahi, Near Post Office",
+      "id": "ViNs9xi"
+    },
+    {
+      "name": "Hari S.",
+      "email": "harishankar@gmail.com",
+      "phone": "9878675645",
+      "address": "Bali Sahi",
+      "id": "JfV2QnD"
+    }
+  ]
+}
