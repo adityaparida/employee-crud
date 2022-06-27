@@ -87,7 +87,6 @@ export class AppComponent implements OnInit {
         this.empService.deleteEmployee(result.id).subscribe(
           (data: any) => {
             this.employeeData = this.employeeData.filter(x => x.id !== data.id);
-            window.location.reload();
             this.table.renderRows();
           });
       }

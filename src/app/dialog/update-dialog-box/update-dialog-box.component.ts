@@ -31,6 +31,7 @@ export class UpdateDialogBoxComponent implements OnInit {
   update() {
     this.employeeService.updateEmployee(this.employee).subscribe(
       (data: any) => {
+        window.location.reload();
         this.dialogRef.close(data);
       }
     );

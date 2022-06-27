@@ -25,6 +25,7 @@ export class DeleteDialogBoxComponent implements OnInit {
     this.employeeService.deleteEmployee(this.data.id).subscribe(
       (res) => {
         console.log(res);
+        window.location.reload();
         this.dialogRef.close(res);
       }
     );
