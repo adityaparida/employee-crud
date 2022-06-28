@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Employee } from 'src/app/employee';
 import { EmployeeService } from 'src/app/employee.service';
@@ -11,6 +11,7 @@ import { EmployeeService } from 'src/app/employee.service';
 export class UpdateDialogBoxComponent implements OnInit {
 
   employee: any;
+  @ViewChild('table') table: any;
   
   constructor(
     private employeeService: EmployeeService,
@@ -31,7 +32,7 @@ export class UpdateDialogBoxComponent implements OnInit {
   update() {
     this.employeeService.updateEmployee(this.employee).subscribe(
       (data: any) => {
-        window.location.reload();
+        // window.location.reload();
         this.dialogRef.close(data);
       }
     );

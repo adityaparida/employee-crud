@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
 import { AddDialogBoxComponent } from './dialog/add-dialog-box/add-dialog-box.component';
@@ -6,6 +6,9 @@ import { DeleteDialogBoxComponent } from './dialog/delete-dialog-box/delete-dial
 import { UpdateDialogBoxComponent } from './dialog/update-dialog-box/update-dialog-box.component';
 import { Employee } from './employee';
 import { EmployeeService } from './employee.service';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +21,7 @@ export class AppComponent implements OnInit {
   employeeData: Employee[];
   @ViewChild(MatTable) table: MatTable<any>;
   employees: Employee = new Employee();
+  @ViewChild('content') content: ElementRef;
 
   constructor(
     private empService: EmployeeService,
@@ -46,9 +50,8 @@ export class AppComponent implements OnInit {
         this.empService.addEmployee(result).subscribe(
           (data: any) => {
             this.employeeData.push(data);
-            window.location.reload();
-            this.table.renderRows();
           });
+          this.getEmployee();
       }
     });
   }
@@ -70,7 +73,7 @@ export class AppComponent implements OnInit {
               return true;
             }
             );
-            this.table.renderRows();
+            this.getEmployee();
           });
       }
     });
@@ -87,10 +90,26 @@ export class AppComponent implements OnInit {
         this.empService.deleteEmployee(result.id).subscribe(
           (data: any) => {
             this.employeeData = this.employeeData.filter(x => x.id !== data.id);
-            this.table.renderRows();
           });
+          this.getEmployee();
       }
     });
+  }
+
+  exportAsPdf() {
+    let doc: any = document.getElementById('content');
+    html2canvas(doc).then(canvas => {
+      let fileWidth = 208;
+      let fileHeight = (canvas.height * fileWidth) / canvas.width;
+      let imgData = canvas.toDataURL('image/png', 1.0);
+      let pdf = new jsPDF('p', 'mm', 'a4');
+      pdf.addImage(imgData, 'PNG', 0, 0, fileWidth, fileHeight);
+      pdf.save('employee-list.pdf');
+    });
+  }
+
+  exportAsExcel() {
+    this.empService.exportAsExcelFile(this.employeeData, 'employee-list');
   }
 
 }

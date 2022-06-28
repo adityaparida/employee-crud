@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EmployeeService } from 'src/app/employee.service';
 
@@ -10,6 +10,8 @@ import { EmployeeService } from 'src/app/employee.service';
 export class DeleteDialogBoxComponent implements OnInit {
 
   employee: any;
+  @ViewChild('table') table: any;
+  
   constructor(
     private employeeService: EmployeeService,
     public dialogRef: MatDialogRef<DeleteDialogBoxComponent>,
@@ -25,7 +27,7 @@ export class DeleteDialogBoxComponent implements OnInit {
     this.employeeService.deleteEmployee(this.data.id).subscribe(
       (res) => {
         console.log(res);
-        window.location.reload();
+        // window.location.reload();
         this.dialogRef.close(res);
       }
     );
