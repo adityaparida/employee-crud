@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Employee } from 'src/app/employee';
 import { EmployeeService } from 'src/app/employee.service';
@@ -11,14 +10,12 @@ import { EmployeeService } from 'src/app/employee.service';
 })
 export class AddDialogBoxComponent implements OnInit {
 
-  employeeForm: FormGroup;
   employees: Employee = new Employee();
   employee: any;
   isSubmitted = false;
   @ViewChild('table') table: any;
 
   constructor(
-    private formBuilder: FormBuilder,
     private employeeService: EmployeeService,
     public dialogRef: MatDialogRef<AddDialogBoxComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Employee
@@ -27,20 +24,14 @@ export class AddDialogBoxComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.employeeForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      email: ['', Validators.required],
-      phone: ['', Validators.required],
-      address: ['', Validators.required]
-    });
   }
 
-  addEmployee(): void {
+  addEmployee(employeeForm): void {
     this.isSubmitted = true;
-    if (this.employeeForm.invalid) {
+    if (employeeForm.invalid) {
       return;
     }
-    this.employeeService.addEmployee(this.employeeForm.value).subscribe(
+    this.employeeService.addEmployee(this.employee).subscribe(
       (res) => {
         console.log(res);
         this.dialogRef.close(res);
